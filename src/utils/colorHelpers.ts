@@ -55,8 +55,8 @@ export function getColorPalette(
   maxCount: number,
   emptyColor?: string,
   customColor?: string,
-  customMinColor?: string,
-  customMaxColor?: string
+  gradientMinColor?: string,
+  gradientMaxColor?: string
 ): Record<number, string> {
   const defaultEmptyColor = parseColorToRgb(theme, emptyColor ?? '') || theme.colors.background.canvas;
   const supportedSchemes = new Set(['red', 'orange', 'yellow', 'green', 'blue', 'purple']);
@@ -80,9 +80,8 @@ export function getColorPalette(
       colorLevels = buildCustomLevels(rgb, theme);
     }
   } else if (scheme === 'custom-gradient') {
-    console.log("using custom gradient")
-    const lowRgb = parseColorToRgb(theme, customMinColor ?? '');
-    const highRgb = parseColorToRgb(theme, customMaxColor ?? '');
+    const lowRgb = parseColorToRgb(theme, gradientMinColor ?? '');
+    const highRgb = parseColorToRgb(theme, gradientMaxColor ?? '');
     if (lowRgb && highRgb) {
       colorLevels = buildTwoColorLevels(lowRgb, highRgb);
     }
