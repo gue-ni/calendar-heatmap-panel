@@ -44,10 +44,10 @@ export const plugin = new PanelPlugin<CalendarHeatmapOptions>(CalendarHeatmapPan
 
         // color gradient
         .addColorPicker({
-          path: 'customColorLow',
-          name: t('panel.options.customColorLow.name', 'Color Gradient Low'),
+          path: 'gradientColorLow',
+          name: t('panel.options.gradientColorLow.name', 'Color Gradient Low'),
           description: t(
-            'panel.options.customColorLow.description',
+            'panel.options.gradientColorLow.description',
             'Low color for custom gradient'
           ),
           defaultValue: '#2230c5',
@@ -55,10 +55,10 @@ export const plugin = new PanelPlugin<CalendarHeatmapOptions>(CalendarHeatmapPan
           showIf: (options) => options.colorScheme === 'custom-gradient',
         })
         .addColorPicker({
-          path: 'customColorHigh',
-          name: t('panel.options.customColorHigh.name', 'Color Gradient High'),
+          path: 'gradientColorHigh',
+          name: t('panel.options.gradientColorHigh.name', 'Color Gradient High'),
           description: t(
-            'panel.options.customColorHigh.description',
+            'panel.options.gradientColorHigh.description',
             'High color for custom gradient'
           ),
           defaultValue: '#c52222',

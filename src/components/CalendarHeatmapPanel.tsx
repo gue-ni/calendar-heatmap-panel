@@ -165,8 +165,8 @@ export const CalendarHeatmapPanel: React.FC<Props> = ({ data, width, height, opt
   }, [heatmapData]);
 
   const colors = useMemo(() => {
-    return getColorPalette(options.colorScheme, theme, maxValue, options.emptyColor, options.customColor, options.customColorLow, options.customColorHigh);
-  }, [options.colorScheme, options.emptyColor, options.customColor, options.customColorLow, options.customColorHigh, theme, maxValue]);
+    return getColorPalette(options.colorScheme, theme, maxValue, options.emptyColor, options.customColor, options.gradientColorLow, options.gradientColorHigh);
+  }, [options.colorScheme, options.emptyColor, options.customColor, options.gradientColorLow, options.gradientColorHigh, theme, maxValue]);
 
   // Styles
   const styles = useMemo(
