@@ -134,6 +134,4 @@ describe('getColorPalette', () => {
     expect([redBlueGradient[2], redBlueGradient[3], redBlueGradient[4], redBlueGradient[5]]).toEqual(expected);
   });
 
-
-
 });
