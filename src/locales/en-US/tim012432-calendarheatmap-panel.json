@@ -103,7 +103,7 @@
         "name": "Custom Color Theme"
       },
       "customGradient": {
-        "description": "Base colors for custom gradient",
+        "description": "Custom gradient defined by two colors",
         "name": "Custom Gradient"
       },
       "monthLabelMode": {

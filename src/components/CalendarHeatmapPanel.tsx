@@ -250,7 +250,7 @@ export const CalendarHeatmapPanel: React.FC<Props> = ({ data, width, height, opt
         legendCellSize={0}
         weekLabels={weekLabels}
         monthLabels={monthLabels}
-        panelColors={colors} // TODO(jmaier)
+        panelColors={colors}
         rectRender={(props, cell) => {
           const typedCell = cell as unknown as HeatmapValue;
           const date = typedCell.originalDate ?? formatDate(reverseShift(options.weekStart, typedCell.date), timeZone);
