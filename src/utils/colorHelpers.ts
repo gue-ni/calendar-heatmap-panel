@@ -26,27 +26,31 @@ function buildCustomLevels(base: string, theme: GrafanaTheme2): string[] {
 }
 
 // Linearly interpolate between two already-parsed rgb() strings at t in [0, 1].
-// t=0 returns `from`, t=1 returns `to`.
-function mixRgb(from: string, to: string, t: number): string {
+// t=0 returns `from`, t=1 returns `to`. Preserves alpha if either color has it.
+function interpolateRgb(from: string, to: string, t: number): string {
   const a = colorManipulator.decomposeColor(from).values as number[];
   const b = colorManipulator.decomposeColor(to).values as number[];
 
-  const values = [0, 1, 2].map((i) => {
-    const av = a[i] ?? 0;
-    const bv = b[i] ?? 0;
-    return Math.round(av + (bv - av) * t);
-  });
+  const rgb = [0, 1, 2].map((i) => Math.min(255, Math.max(0, Math.round(a[i] + (b[i] - a[i]) * t))));
 
-  return colorManipulator.recomposeColor({ type: 'rgb', values });
+  return colorManipulator.recomposeColor({ type: 'rgb', values: rgb });
 }
 
-// build 4 shade levels by interpolating directly between an explicit
+// build 'levelCount' shade levels by interpolating directly between an explicit
 // low color and an explicit high color. This is intentionally NOT reversed
 // for dark theme: the caller defined what "low" and "high" mean explicitly,
 // so that ordering is honored as-is regardless of theme.
-function buildTwoColorLevels(lowRgb: string, highRgb: string): string[] {
-  const stops = [0.25, 0.5, 0.75, 1];
-  return stops.map((t) => mixRgb(lowRgb, highRgb, t));
+function buildGradient(lowRgb: string, highRgb: string, levelCount = 4): string[] {
+
+  if (levelCount < 1) {
+    return [];
+  }
+
+  if (lowRgb === highRgb || levelCount === 1) {
+    return Array(Math.max(1, levelCount)).fill(highRgb);
+  }
+
+  return Array.from({ length: levelCount }, (_, i) => interpolateRgb(lowRgb, highRgb, i / (levelCount - 1)));
 }
 
 export function getColorPalette(
@@ -83,7 +87,7 @@ export function getColorPalette(
     const lowRgb = parseColorToRgb(theme, gradientMinColor ?? '');
     const highRgb = parseColorToRgb(theme, gradientMaxColor ?? '');
     if (lowRgb && highRgb) {
-      colorLevels = buildTwoColorLevels(lowRgb, highRgb);
+      colorLevels = buildGradient(lowRgb, highRgb, safeMax);
     }
   }
 
