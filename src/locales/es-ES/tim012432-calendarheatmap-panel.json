@@ -99,12 +99,12 @@
         "name": "Color vacío"
       },
       "customColor": {
-        "description": "Degradado personalizado definido por dos colores",
-        "name": "Degradado personalizado"
+        "description": "Color base para la paleta personalizada (otros colores se derivarán de este)",
+        "name": "Tema de Color Personalizado"
       },
       "customGradient": {
-        "description": "Custom gradient defined by two colors",
-        "name": "Custom Gradient"
+        "description": "Degradado personalizado definido por dos colores",
+        "name": "Degradado personalizado"
       },
       "monthLabelMode": {
         "description": "Cómo renderizar las etiquetas de los meses",
