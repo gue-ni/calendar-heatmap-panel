@@ -25,12 +25,39 @@ function buildCustomLevels(base: string, theme: GrafanaTheme2): string[] {
   return theme.isDark ? [...levels].reverse() : levels;
 }
 
+// Linearly interpolate between two already-parsed rgb() strings at t in [0, 1].
+// t=0 returns `from`, t=1 returns `to`.
+function mixRgb(from: string, to: string, t: number): string {
+  const a = colorManipulator.decomposeColor(from).values as number[];
+  const b = colorManipulator.decomposeColor(to).values as number[];
+
+  const values = [0, 1, 2].map((i) => {
+    const av = a[i] ?? 0;
+    const bv = b[i] ?? 0;
+    return Math.round(av + (bv - av) * t);
+  });
+
+  return colorManipulator.recomposeColor({ type: 'rgb', values });
+}
+
+// build 4 shade levels by interpolating directly between an explicit
+// low color and an explicit high color. This is intentionally NOT reversed
+// for dark theme: the caller defined what "low" and "high" mean explicitly,
+// so that ordering is honored as-is regardless of theme.
+function buildTwoColorLevels(lowRgb: string, highRgb: string): string[] {
+  const stops = [0.25, 0.5, 0.75, 1];
+  return stops.map((t) => mixRgb(lowRgb, highRgb, t));
+}
+
+// TODO(jmaier)
 export function getColorPalette(
   scheme: string,
   theme: GrafanaTheme2,
   maxCount: number,
   emptyColor?: string,
-  customColor?: string
+  customColor?: string,
+  customMinColor?: string,
+  customMaxColor?: string
 ): Record<number, string> {
   const defaultEmptyColor = parseColorToRgb(theme, emptyColor ?? '') || theme.colors.background.canvas;
   const supportedSchemes = new Set(['red', 'orange', 'yellow', 'green', 'blue', 'purple']);
@@ -52,6 +79,12 @@ export function getColorPalette(
     const rgb = parseColorToRgb(theme, customColor ?? '');
     if (rgb) {
       colorLevels = buildCustomLevels(rgb, theme);
+    }
+  } else if (scheme === 'custom-gradient') {
+    const lowRgb = parseColorToRgb(theme, customMinColor ?? '');
+    const highRgb = parseColorToRgb(theme, customMaxColor ?? '');
+    if (lowRgb && highRgb) {
+      colorLevels = buildTwoColorLevels(lowRgb, highRgb);
     }
   }
 

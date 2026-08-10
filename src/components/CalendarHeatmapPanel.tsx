@@ -165,8 +165,8 @@ export const CalendarHeatmapPanel: React.FC<Props> = ({ data, width, height, opt
   }, [heatmapData]);
 
   const colors = useMemo(() => {
-    return getColorPalette(options.colorScheme, theme, maxValue, options.emptyColor, options.customColor);
-  }, [options.colorScheme, options.emptyColor, options.customColor, theme, maxValue]);
+    return getColorPalette(options.colorScheme, theme, maxValue, options.emptyColor, options.customColor, options.customColorLow, options.customColorHigh);
+  }, [options.colorScheme, options.emptyColor, options.customColor, options.customColorLow, options.customColorHigh, theme, maxValue]);
 
   // Styles
   const styles = useMemo(
@@ -203,7 +203,7 @@ export const CalendarHeatmapPanel: React.FC<Props> = ({ data, width, height, opt
 
         /* Correct week labels off placement */
         > text.w-heatmap-week {
-          transform: translateY(-${computedRectSize/2+options.space/2}px); 
+          transform: translateY(-${computedRectSize/2+options.space/2}px);
         }
       `,
       legend: css`
@@ -250,7 +250,7 @@ export const CalendarHeatmapPanel: React.FC<Props> = ({ data, width, height, opt
         legendCellSize={0}
         weekLabels={weekLabels}
         monthLabels={monthLabels}
-        panelColors={colors}
+        panelColors={colors} // TODO(jmaier)
         rectRender={(props, cell) => {
           const typedCell = cell as unknown as HeatmapValue;
           const date = typedCell.originalDate ?? formatDate(reverseShift(options.weekStart, typedCell.date), timeZone);

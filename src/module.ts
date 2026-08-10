@@ -18,6 +18,7 @@ export const plugin = new PanelPlugin<CalendarHeatmapOptions>(CalendarHeatmapPan
           defaultValue: 'green',
           category: ['Colors'],
           settings: {
+            // TODO(jakob)
             options: [
               { value: 'green', label: t('panel.options.colorScheme.options.green', 'Green') },
               { value: 'blue', label: t('panel.options.colorScheme.options.blue', 'Blue') },
@@ -26,12 +27,13 @@ export const plugin = new PanelPlugin<CalendarHeatmapOptions>(CalendarHeatmapPan
               { value: 'purple', label: t('panel.options.colorScheme.options.purple', 'Purple') },
               { value: 'orange', label: t('panel.options.colorScheme.options.orange', 'Orange') },
               { value: 'custom', label: t('panel.options.colorScheme.options.custom', 'Custom') },
+              { value: 'custom_gradient', label: t('panel.options.colorScheme.options.custom_gradient', 'Custom Gradient') },
             ],
           },
         })
         .addColorPicker({
           path: 'customColor',
-          name: t('panel.options.customColor.name', 'Custom Color Theme'),
+          name: t('panel.options.customColor.name', 'Custom Color Theme'), // TODO
           description: t(
             'panel.options.customColor.description',
             'Base color for custom palette (other colors will be derived from this)'
@@ -39,6 +41,28 @@ export const plugin = new PanelPlugin<CalendarHeatmapOptions>(CalendarHeatmapPan
           defaultValue: '#22c55e',
           category: ['Colors'],
           showIf: (options) => options.colorScheme === 'custom',
+        })
+        .addColorPicker({
+          path: 'customColorLow',
+          name: t('panel.options.customColorLow.name', 'Custom Color Gradient Low'),
+          description: t(
+            'panel.options.customColorLow.description',
+            'Base color for custom gradient (other colors will be derived from this)'
+          ),
+          defaultValue: '#2230c5',
+          category: ['Colors'],
+          showIf: (options) => options.colorScheme === 'custom_gradient',
+        })
+        .addColorPicker({
+          path: 'customColorHigh',
+          name: t('panel.options.customColorHigh.name', 'Custom Color Gradient Low'),
+          description: t(
+            'panel.options.customColorHigh.description',
+            'Base color for custom palette (other colors will be derived from this)'
+          ),
+          defaultValue: '#c52222',
+          category: ['Colors'],
+          showIf: (options) => options.colorScheme === 'custom_gradient',
         })
         .addColorPicker({
           path: 'emptyColor',

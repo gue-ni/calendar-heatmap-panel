@@ -23,6 +23,7 @@ function createTheme(options: ThemeOptions = {}): GrafanaTheme2 {
   } as unknown as GrafanaTheme2;
 }
 
+// TODO
 describe('getColorPalette', () => {
   it('returns built-in scheme palette with stable thresholds and empty color buckets', () => {
     const theme = createTheme({
