@@ -49,7 +49,6 @@ function buildTwoColorLevels(lowRgb: string, highRgb: string): string[] {
   return stops.map((t) => mixRgb(lowRgb, highRgb, t));
 }
 
-// TODO(jmaier)
 export function getColorPalette(
   scheme: string,
   theme: GrafanaTheme2,
@@ -81,6 +80,7 @@ export function getColorPalette(
       colorLevels = buildCustomLevels(rgb, theme);
     }
   } else if (scheme === 'custom-gradient') {
+    console.log("using custom gradient")
     const lowRgb = parseColorToRgb(theme, customMinColor ?? '');
     const highRgb = parseColorToRgb(theme, customMaxColor ?? '');
     if (lowRgb && highRgb) {

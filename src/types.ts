@@ -1,6 +1,6 @@
 export interface CalendarHeatmapOptions {
   // Colors
-  colorScheme: 'green' | 'blue' | 'red' | 'yellow' | 'purple' | 'orange' | 'custom' | 'custom_gradient';
+  colorScheme: 'green' | 'blue' | 'red' | 'yellow' | 'purple' | 'orange' | 'custom' | 'custom-gradient';
   emptyColor: string;
   customColor: string;
   customColorLow: string;
